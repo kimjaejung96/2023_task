@@ -23,7 +23,7 @@ class UserRepoTest {
     @Test
     void 회원가입() {
 
-        UserEntity userEntity = UserEntity.createUser(new User("kimjaejungh", "kimjaejungz", "김재중"));
+        UserEntity userEntity = UserEntity.createUser(new User.signUp("kimjaejungh", "kimjaejungz", "김재중"));
         userRepo.save(userEntity);
 
         Optional<UserEntity> findUser = userRepo.findById(userEntity.getUid());

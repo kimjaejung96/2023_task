@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test/tradlinx
+    url: jdbc:h2:tcp://localhost/~/test/tradlinx;MODE=MYSQL
     driver-class-name: org.h2.Driver
     username: sa
   jpa:
@@ -8,6 +8,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
   
   output:
     ansi:
@@ -19,3 +20,9 @@ spring:
 logging:
   level:
     org.hibernate.type: trace
+server:
+  port: 8899
+jwt:
+  accessToken:
+    validTime: 20000
+  secret: a2ltamFlanVuZ3Rlc3RzZWNyZXRza2V5MDEwNTA2NDE0MDZraW1qYWVqdW5ndGVzdHNlY3JldHNrZXkwMTA1MDY0MTQwNmtpbWphZWp1bmd0ZXN0c2VjcmV0c2tleTAxMDUwNjQxNDA2a2ltamFlanVuZ3Rlc3RzZWNyZXRza2V5MDEwNTA2NDE0MDY=

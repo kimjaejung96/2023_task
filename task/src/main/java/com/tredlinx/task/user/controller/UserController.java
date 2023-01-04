@@ -1,5 +1,8 @@
 package com.tredlinx.task.user.controller;
 
+import com.tredlinx.task.common.exception.CustomException;
+import com.tredlinx.task.common.exception.model.dto.ResponseObject;
+import com.tredlinx.task.common.exception.model.enumurate.ApiExceptionCode;
 import com.tredlinx.task.user.model.dto.User;
 import com.tredlinx.task.user.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +30,7 @@ public class UserController {
     @Operation(summary = "signup", description = "회원가입")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "201", description = "CREATED"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden"),
@@ -39,7 +43,28 @@ public class UserController {
             @Parameter(name = "pw", description = "비밀번호", example = "a14564kmdf")
     })
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody User user) {
-        return userService.singUp(user);
+    public ResponseEntity<ResponseObject> signup(@RequestBody User.signUp user) throws CustomException {
+        ResponseObject responseObject = new ResponseObject(ApiExceptionCode.CREATED);
+        userService.signup(user);
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+    @Operation(summary = "signin", description = "로그인")
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "OK"),
+//            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+//            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+//            @ApiResponse(responseCode = "403", description = "Forbidden"),
+//            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+//            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+//    })
+    @Parameters({
+            @Parameter(name = "userId", description = "아이디", example = "kimjaejung96"),
+            @Parameter(name = "pw", description = "비밀번호", example = "a14564kmdf")
+    })
+    @PostMapping("/signin")
+    public ResponseEntity<ResponseObject> signin(@RequestBody User.signIn user) throws CustomException {
+        ResponseObject responseObject = new ResponseObject(ApiExceptionCode.OK);
+        responseObject.setBody(userService.signin(user));
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 }
