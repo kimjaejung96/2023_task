@@ -54,7 +54,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private String getAccessToken(HttpServletRequest request) throws CustomException {
+    private String getAccessToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
