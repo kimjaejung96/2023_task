@@ -45,7 +45,7 @@ public class UserEntity {
     }
 
     public static UserEntity createUser(User.signUp user) {
-        return new UserEntity(user.getUserId(), user.getUsername(), user.getPw());
+        return new UserEntity(user.getUserid(), user.getUsername(), user.getPw());
     }
 
     public void checkPw(String pw) throws CustomException {

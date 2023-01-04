@@ -1,6 +1,7 @@
 package com.tredlinx.task.common.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tredlinx.task.common.component.JwtUtils;
 import com.tredlinx.task.common.filter.AuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SpringSecurityConfig {
     private final ObjectMapper objectMapper;
+    private final JwtUtils jwtUtils;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -39,7 +41,7 @@ public class SpringSecurityConfig {
 
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new AuthenticationFilter(objectMapper), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationFilter(objectMapper, jwtUtils), UsernamePasswordAuthenticationFilter.class)
         ;
         return http.build();
 

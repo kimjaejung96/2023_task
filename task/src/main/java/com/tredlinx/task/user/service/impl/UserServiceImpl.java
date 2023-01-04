@@ -1,6 +1,6 @@
 package com.tredlinx.task.user.service.impl;
 
-import com.tredlinx.task.common.component.JwtGenerator;
+import com.tredlinx.task.common.component.JwtUtils;
 import com.tredlinx.task.common.exception.CustomException;
 import com.tredlinx.task.common.exception.model.enumurate.ApiExceptionCode;
 import com.tredlinx.task.common.jwt.model.dto.JwtTokens;
@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
-    private final JwtGenerator jwtGenerator;
+    private final JwtUtils jwtUtils;
     @Override
     @Transactional
     public void signup(User.signUp user) throws CustomException {
-        if (userRepo.existsByUserId(user.getUserId())) {
+        if (userRepo.existsByUserId(user.getUserid())) {
             throw new CustomException(ApiExceptionCode.ID_ALREADY_EXIST);
         }
         UserEntity userEntity = UserEntity.createUser(user);
@@ -30,8 +30,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public JwtTokens signin(User.signIn user) throws CustomException {
-        UserEntity userEntity = userRepo.findByUserId(user.getUserId()).orElseThrow(() -> new CustomException(ApiExceptionCode.USER_NOT_FOUND));
+        UserEntity userEntity = userRepo.findByUserId(user.getUserid()).orElseThrow(() -> new CustomException(ApiExceptionCode.USER_NOT_FOUND));
         userEntity.checkPw(user.getPw());
-        return jwtGenerator.createJwtToken(userEntity.getUid());
+        return jwtUtils.createJwtToken(userEntity.getUid());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User.profile profile() throws CustomException {
+        UserEntity userEntity = userRepo.findByUid(JwtUtils.getUid()).orElseThrow(() -> new CustomException(ApiExceptionCode.INCORRECT_JWT_TOKEN));
+        return new User.profile(userEntity);
     }
 }

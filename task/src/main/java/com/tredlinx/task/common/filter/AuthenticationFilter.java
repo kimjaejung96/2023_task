@@ -1,6 +1,7 @@
 package com.tredlinx.task.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tredlinx.task.common.component.JwtUtils;
 import com.tredlinx.task.common.exception.CustomException;
 import com.tredlinx.task.common.exception.CustomRuntimeException;
 import com.tredlinx.task.common.exception.model.dto.ResponseObject;
@@ -32,17 +33,16 @@ import java.security.Key;
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
-    @Value("${jwt.secret}")
-    private String secretKey;
     private final ObjectMapper objectMapper;
+    private final JwtUtils jwtUtils;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = getAccessToken(request);
             if(token != null){
-                tokenValidationCheck(token);
-                String uid = getAuthPayload(token);
+                jwtUtils.tokenValidationCheck(token);
+                String uid = jwtUtils.getAuthPayload(token);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(uid, token,null);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -53,7 +53,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             objectMapper.writeValue(response.getWriter(), new ResponseObject(ApiExceptionCode.UNAUTHORIZED));
         }
     }
-
     private String getAccessToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
@@ -62,38 +61,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private String getAuthPayload(String token)  {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigninKey(secretKey)).build()
-                .parseClaimsJws(token)
-                .getBody().get("sub", String.class);
-    }
-    private Key getSigninKey(String secretKey) {
-        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-    private void tokenValidationCheck(String token) throws CustomException {
-        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
-            token =  token.substring(7);
-        }
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigninKey(secretKey)).build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.error("잘못된 JWT 서명입니다.");
-            throw new CustomException(ApiExceptionCode.UNAUTHORIZED);
-        } catch (ExpiredJwtException e) {
-            log.error("만료된 JWT 토큰입니다.");
-            throw new CustomException(ApiExceptionCode.UNAUTHORIZED);
-        } catch (UnsupportedJwtException e) {
-            log.error("지원되지 않는 JWT 토큰입니다.");
-            throw new CustomException(ApiExceptionCode.UNAUTHORIZED);
-        } catch (IllegalArgumentException e) {
-            log.error("JWT 토큰이 잘못되었습니다.");
-            throw new CustomException(ApiExceptionCode.UNAUTHORIZED);
-        }
-    }
+
+
 
 }

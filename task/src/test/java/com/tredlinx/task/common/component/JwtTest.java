@@ -18,12 +18,12 @@ import static org.hamcrest.Matchers.*;
 public class JwtTest {
     private String secret = "a2ltamFlanVuZ3Rlc3RzZWNyZXRza2V5MDEwNTA2NDE0MDZraW1qYWVqdW5ndGVzdHNlY3JldHNrZXkwMTA1MDY0MTQwNmtpbWphZWp1bmd0ZXN0c2VjcmV0c2tleTAxMDUwNjQxNDA2a2ltamFlanVuZ3Rlc3RzZWNyZXRza2V5MDEwNTA2NDE0MDY=";
     @Autowired
-    JwtGenerator jwtGenerator;
+    JwtUtils jwtUtils;
 
     @Test
     void Jwt_생성_및_claim_확인() {
         String uid = "test word in secret context";
-        JwtTokens token = jwtGenerator.createJwtToken(uid);
+        JwtTokens token = jwtUtils.createJwtToken(uid);
         String result = getAuthPayload(token.getAccessToken().substring(7));
         assertThat(uid, equalTo(result));
     }

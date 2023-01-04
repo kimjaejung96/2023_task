@@ -9,4 +9,6 @@ public interface UserService {
     void signup(User.signUp user) throws CustomException;
 
      JwtTokens signin(User.signIn user) throws CustomException;
+
+    User.profile profile() throws CustomException;
 }
