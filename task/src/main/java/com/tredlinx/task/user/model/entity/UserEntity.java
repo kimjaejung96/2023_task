@@ -1,6 +1,7 @@
 package com.tredlinx.task.user.model.entity;
 
 
+import com.tredlinx.task.user.model.dto.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,11 +31,18 @@ public class UserEntity {
     @Column(name = "PASSWORD", columnDefinition = "varchar(64)")
     private String password;
 
-    @Builder(builderMethodName = "createUser")
-    public UserEntity(String userId, String userName, String password) {
+    @Column(name = "POINT", columnDefinition = "bigint(10)")
+    private long point;
+
+    public UserEntity(String userId, String userName, String pw) {
         this.uid = UUID.randomUUID().toString();
         this.userId = userId;
         this.userName = userName;
-        this.password = password;
+        this.password = pw;
+        this.point = 0;
+    }
+
+    public static UserEntity createUser(User user) {
+        return new UserEntity(user.getUserId(), user.getUsername(), user.getPw());
     }
 }

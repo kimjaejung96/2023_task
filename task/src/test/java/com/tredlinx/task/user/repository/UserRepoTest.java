@@ -1,5 +1,6 @@
 package com.tredlinx.task.user.repository;
 
+import com.tredlinx.task.user.model.dto.User;
 import com.tredlinx.task.user.model.entity.UserEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +22,8 @@ class UserRepoTest {
 
     @Test
     void 회원가입() {
-        UserEntity userEntity = UserEntity.createUser()
-                .userId("kimjaejung")
-                .userName("김재중")
-                .password("rlawownd")
-                .build();
+
+        UserEntity userEntity = UserEntity.createUser(new User("kimjaejungh", "kimjaejungz", "김재중"));
         userRepo.save(userEntity);
 
         Optional<UserEntity> findUser = userRepo.findById(userEntity.getUid());
