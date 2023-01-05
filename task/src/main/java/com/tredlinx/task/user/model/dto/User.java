@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 public class User {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class signUp {
+    public static class SignUp {
         private String userid;
         private String pw;
         private String username;
 
-        public signUp(String userid, String pw, String username) {
+        public SignUp(String userid, String pw, String username) {
             this.userid = userid;
             this.pw = pw;
             this.username = username;
@@ -23,18 +23,18 @@ public class User {
     }
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class signIn {
+    public static class SignIn {
         private String userid;
         private String pw;
     }
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class profile {
+    public static class Profile {
         private String userid;
         private String username;
         private Long point;
 
-        public profile(UserEntity user) {
+        public Profile(UserEntity user) {
             this.userid = user.getUserId();
             this.username = user.getUserName();
             this.point = user.getPoint();

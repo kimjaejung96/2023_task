@@ -1,17 +1,16 @@
 package com.tredlinx.task.user.service;
 
-import com.tredlinx.task.common.exception.CustomException;
 import com.tredlinx.task.common.jwt.model.dto.JwtTokens;
 import com.tredlinx.task.user.model.dto.User;
 
 import java.util.Map;
 
 public interface UserService {
-    void signup(User.signUp user) throws CustomException;
+    void signup(User.SignUp user) ;
 
-     JwtTokens signin(User.signIn user) throws CustomException;
+     JwtTokens signin(User.SignIn user) ;
 
-    User.profile profile() throws CustomException;
+    User.Profile profile() ;
 
-    Map<String, Long> points() throws CustomException;
+    Map<String, Long> points() ;
 }

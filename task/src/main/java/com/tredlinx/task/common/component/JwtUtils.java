@@ -1,6 +1,6 @@
 package com.tredlinx.task.common.component;
 
-import com.tredlinx.task.common.exception.CustomException;
+import com.tredlinx.task.common.exception.CustomRuntimeException;
 import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import com.tredlinx.task.common.jwt.model.dto.JwtTokens;
 import io.jsonwebtoken.*;
@@ -51,7 +51,7 @@ public class JwtUtils {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-    public void tokenValidationCheck(String token) throws CustomException {
+    public void tokenValidationCheck(String token) {
         if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
             token =  token.substring(7);
         }
@@ -62,16 +62,16 @@ public class JwtUtils {
                     .getBody();
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.error("잘못된 JWT 서명입니다.");
-            throw new CustomException(CustomApiCode.UNAUTHORIZED);
+            throw new CustomRuntimeException(CustomApiCode.UNAUTHORIZED);
         } catch (ExpiredJwtException e) {
             log.error("만료된 JWT 토큰입니다.");
-            throw new CustomException(CustomApiCode.UNAUTHORIZED);
+            throw new CustomRuntimeException(CustomApiCode.UNAUTHORIZED);
         } catch (UnsupportedJwtException e) {
             log.error("지원되지 않는 JWT 토큰입니다.");
-            throw new CustomException(CustomApiCode.UNAUTHORIZED);
+            throw new CustomRuntimeException(CustomApiCode.UNAUTHORIZED);
         } catch (IllegalArgumentException e) {
             log.error("JWT 토큰이 잘못되었습니다.");
-            throw new CustomException(CustomApiCode.UNAUTHORIZED);
+            throw new CustomRuntimeException(CustomApiCode.UNAUTHORIZED);
         }
     }
 }

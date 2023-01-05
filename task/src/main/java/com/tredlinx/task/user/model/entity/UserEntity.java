@@ -2,17 +2,15 @@ package com.tredlinx.task.user.model.entity;
 
 
 import com.tredlinx.task.common.component.Encryptor;
-import com.tredlinx.task.common.exception.CustomException;
+import com.tredlinx.task.common.exception.CustomRuntimeException;
 import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
+import com.tredlinx.task.common.model.enumurate.PointType;
 import com.tredlinx.task.user.model.dto.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -44,13 +42,21 @@ public class UserEntity {
         this.point = 0L;
     }
 
-    public static UserEntity createUser(User.signUp user) {
+    public static UserEntity createUser(User.SignUp user) {
         return new UserEntity(user.getUserid(), user.getUsername(), user.getPw());
     }
 
-    public void checkPw(String pw) throws CustomException {
+    public void checkPw(String pw) {
         if (!Encryptor.encrypt(pw).equals(this.pw)) {
-            throw new CustomException(CustomApiCode.INVALID_PASSWORD);
+            throw new CustomRuntimeException(CustomApiCode.INVALID_PASSWORD);
         }
+    }
+
+    public UserEntity(String uid) {
+        this.uid = uid;
+    }
+
+    public void addPoint(PointType type) {
+        this.point += type.getPoint();
     }
 }

@@ -2,7 +2,7 @@ package com.tredlinx.task.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tredlinx.task.common.component.JwtUtils;
-import com.tredlinx.task.common.exception.CustomException;
+import com.tredlinx.task.common.exception.CustomRuntimeException;
 import com.tredlinx.task.common.exception.model.dto.ResponseObject;
 import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             filterChain.doFilter(request, response);
-        } catch (CustomException e) {
+        } catch (CustomRuntimeException e) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             objectMapper.writeValue(response.getWriter(), new ResponseObject(CustomApiCode.UNAUTHORIZED));

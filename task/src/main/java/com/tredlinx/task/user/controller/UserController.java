@@ -1,6 +1,5 @@
 package com.tredlinx.task.user.controller;
 
-import com.tredlinx.task.common.exception.CustomException;
 import com.tredlinx.task.common.exception.model.dto.ResponseObject;
 import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import com.tredlinx.task.user.model.dto.User;
@@ -40,7 +39,7 @@ public class UserController {
             @Parameter(name = "pw", description = "비밀번호", example = "a14564kmdf")
     })
     @PostMapping("/signup")
-    public ResponseEntity<ResponseObject> signup(@RequestBody User.signUp user) throws CustomException {
+    public ResponseEntity<ResponseObject> signup(@RequestBody User.SignUp user) {
         ResponseObject responseObject = new ResponseObject(CustomApiCode.CREATED);
         userService.signup(user);
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
@@ -60,7 +59,7 @@ public class UserController {
             @Parameter(name = "pw", description = "비밀번호", example = "a14564kmdf")
     })
     @PostMapping("/signin")
-    public ResponseEntity<ResponseObject> signin(@RequestBody User.signIn user) throws CustomException {
+    public ResponseEntity<ResponseObject> signin(@RequestBody User.SignIn user) {
         ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(userService.signin(user));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
@@ -75,7 +74,7 @@ public class UserController {
             @ApiResponse(responseCode = "999", description = "SYSTEM_ERROR"),
     })
     @GetMapping("/profile")
-    public ResponseEntity<ResponseObject> profile() throws CustomException {
+    public ResponseEntity<ResponseObject> profile() {
         ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(userService.profile());
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
@@ -90,7 +89,7 @@ public class UserController {
             @ApiResponse(responseCode = "999", description = "SYSTEM_ERROR"),
     })
     @GetMapping("/points")
-    public ResponseEntity<ResponseObject> points() throws CustomException {
+    public ResponseEntity<ResponseObject> points() {
         ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(userService.points());
         return new ResponseEntity<>(responseObject, HttpStatus.OK);

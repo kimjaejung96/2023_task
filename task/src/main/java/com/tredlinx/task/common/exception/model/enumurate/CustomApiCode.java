@@ -12,6 +12,7 @@ public enum CustomApiCode {
     USER_NOT_FOUND(600, "유저를 찾을 수 없습니다."),
     INVALID_PASSWORD(601, "비밀번호가 올바르지 않습니다."),
     ID_ALREADY_EXIST(602, "해당 아이디가 존재합니다."),
+    ARTICLE_NOT_FOUND(603, "글을 찾을 수 없습니다."),
     INCORRECT_JWT_TOKEN(998, "Jwt 토큰이 올바르지 않습니다."),
     SYSTEM_ERROR(999, "SYSTEM_ERROR");
     private final int apiCode;
