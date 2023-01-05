@@ -3,7 +3,7 @@ package com.tredlinx.task.user.model.entity;
 
 import com.tredlinx.task.common.component.Encryptor;
 import com.tredlinx.task.common.exception.CustomException;
-import com.tredlinx.task.common.exception.model.enumurate.ApiExceptionCode;
+import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import com.tredlinx.task.user.model.dto.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -50,7 +50,7 @@ public class UserEntity {
 
     public void checkPw(String pw) throws CustomException {
         if (!Encryptor.encrypt(pw).equals(this.pw)) {
-            throw new CustomException(ApiExceptionCode.INVALID_PASSWORD);
+            throw new CustomException(CustomApiCode.INVALID_PASSWORD);
         }
     }
 }

@@ -3,7 +3,7 @@ package com.tredlinx.task.common.exception.model.enumurate;
 import lombok.Getter;
 
 @Getter
-public enum ApiExceptionCode {
+public enum CustomApiCode {
     OK(200, "OK"),
     CREATED(201, "Created"),
     BAD_REQUEST(400, "Bad Request"),
@@ -17,7 +17,7 @@ public enum ApiExceptionCode {
     private final int apiCode;
     private final String message;
 
-    ApiExceptionCode(int code, String message) {
+    CustomApiCode(int code, String message) {
         this.apiCode = code;
         this.message = message;
     }

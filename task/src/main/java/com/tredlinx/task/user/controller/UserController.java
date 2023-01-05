@@ -2,13 +2,12 @@ package com.tredlinx.task.user.controller;
 
 import com.tredlinx.task.common.exception.CustomException;
 import com.tredlinx.task.common.exception.model.dto.ResponseObject;
-import com.tredlinx.task.common.exception.model.enumurate.ApiExceptionCode;
+import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import com.tredlinx.task.user.model.dto.User;
 import com.tredlinx.task.user.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,7 +41,7 @@ public class UserController {
     })
     @PostMapping("/signup")
     public ResponseEntity<ResponseObject> signup(@RequestBody User.signUp user) throws CustomException {
-        ResponseObject responseObject = new ResponseObject(ApiExceptionCode.CREATED);
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.CREATED);
         userService.signup(user);
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
@@ -62,11 +61,11 @@ public class UserController {
     })
     @PostMapping("/signin")
     public ResponseEntity<ResponseObject> signin(@RequestBody User.signIn user) throws CustomException {
-        ResponseObject responseObject = new ResponseObject(ApiExceptionCode.OK);
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(userService.signin(user));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
-    @Operation(summary = "profile", description = "로그인")
+    @Operation(summary = "profile", description = "프로필 조회")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
@@ -77,8 +76,23 @@ public class UserController {
     })
     @GetMapping("/profile")
     public ResponseEntity<ResponseObject> profile() throws CustomException {
-        ResponseObject responseObject = new ResponseObject(ApiExceptionCode.OK);
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(userService.profile());
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+    @Operation(summary = "points", description = "포인트 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "998", description = "Jwt 토큰이 올바르지 않습니다."),
+            @ApiResponse(responseCode = "999", description = "SYSTEM_ERROR"),
+    })
+    @GetMapping("/points")
+    public ResponseEntity<ResponseObject> points() throws CustomException {
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
+        responseObject.setBody(userService.points());
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 }

@@ -2,6 +2,8 @@ package com.tredlinx.task.common.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tredlinx.task.common.component.JwtUtils;
+import com.tredlinx.task.common.exception.handler.AuthenticationHandler;
+import com.tredlinx.task.common.exception.handler.AuthorizationHandler;
 import com.tredlinx.task.common.filter.AuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
     private final ObjectMapper objectMapper;
     private final JwtUtils jwtUtils;
+    private final AuthenticationHandler authenticationHandler;
+    private final AuthorizationHandler authorizationHandler;
+    private final String[] permitUriList =
+            {"/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/swagger*/**",
+            "/swagger-ui.html",
+            "/swagger-ui/index.html"};
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -28,6 +40,8 @@ public class SpringSecurityConfig {
                 .cors().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
+                .authenticationEntryPoint(authenticationHandler)
+                .accessDeniedHandler(authorizationHandler)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -36,8 +50,7 @@ public class SpringSecurityConfig {
 
                 .antMatchers(HttpMethod.POST,"/v1/signup").permitAll()
                 .antMatchers(HttpMethod.POST,"/v1/signin").permitAll()
-                .antMatchers(HttpMethod.POST, "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**, /swagger*/**", "/swagger-ui.html", "/swagger-ui/index.html").permitAll()
-                .antMatchers(HttpMethod.GET, "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**, /swagger*/**", "/swagger-ui.html", "/swagger-ui/index.html").permitAll()
+                .antMatchers( permitUriList).permitAll()
 
                 .anyRequest().authenticated()
                 .and()

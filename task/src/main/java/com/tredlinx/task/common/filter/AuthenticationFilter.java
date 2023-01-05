@@ -3,17 +3,10 @@ package com.tredlinx.task.common.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tredlinx.task.common.component.JwtUtils;
 import com.tredlinx.task.common.exception.CustomException;
-import com.tredlinx.task.common.exception.CustomRuntimeException;
 import com.tredlinx.task.common.exception.model.dto.ResponseObject;
-import com.tredlinx.task.common.exception.model.enumurate.ApiExceptionCode;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.Keys;
+import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,8 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -50,7 +41,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         } catch (CustomException e) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            objectMapper.writeValue(response.getWriter(), new ResponseObject(ApiExceptionCode.UNAUTHORIZED));
+            objectMapper.writeValue(response.getWriter(), new ResponseObject(CustomApiCode.UNAUTHORIZED));
         }
     }
     private String getAccessToken(HttpServletRequest request) {

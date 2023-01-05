@@ -11,9 +11,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler({CustomException.class, CustomRuntimeException.class})
+    @ExceptionHandler({CustomException.class, CustomRuntimeException.class, Exception.class, RuntimeException.class})
     public ResponseEntity<ResponseObject> handleCustomException(CustomException ex) {
-        ResponseObject responseObject = new ResponseObject(ex.getApiExceptionCode());
+        ResponseObject responseObject = new ResponseObject(ex.getCustomApiCode());
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 

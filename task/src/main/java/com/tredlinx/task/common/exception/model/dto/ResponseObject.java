@@ -1,6 +1,6 @@
 package com.tredlinx.task.common.exception.model.dto;
 
-import com.tredlinx.task.common.exception.model.enumurate.ApiExceptionCode;
+import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +16,10 @@ public class ResponseObject implements Serializable {
         this.data = data;
     }
 
-    public ResponseObject(ApiExceptionCode apiExceptionCode) {
+    public ResponseObject(CustomApiCode customApiCode) {
         this.apiStatus = new ApiStatus();
-        this.apiStatus.apiCode = apiExceptionCode.getApiCode();
-        this.apiStatus.message = apiExceptionCode.getMessage();
+        this.apiStatus.apiCode = customApiCode.getApiCode();
+        this.apiStatus.message = customApiCode.getMessage();
     }
 
     @Getter

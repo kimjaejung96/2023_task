@@ -1,11 +1,11 @@
 package com.tredlinx.task.common.exception;
 
-import com.tredlinx.task.common.exception.model.enumurate.ApiExceptionCode;
+import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 
 public class CustomRuntimeException extends RuntimeException{
-    private final ApiExceptionCode apiExceptionCode;
+    private final CustomApiCode customApiCode;
 
-    public CustomRuntimeException(ApiExceptionCode apiExceptionCode) {
-        this.apiExceptionCode = apiExceptionCode;
+    public CustomRuntimeException(CustomApiCode customApiCode) {
+        this.customApiCode = customApiCode;
     }
 }
