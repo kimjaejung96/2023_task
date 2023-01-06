@@ -42,4 +42,13 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleEntity articleEntity = articleRepo.findById(articleId).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
         return articleEntity.selectArticleDto();
     }
+
+    @Override
+    @Transactional
+    public int deleteArticle(String articleId) {
+        ArticleEntity articleEntity = articleRepo.findById(articleId).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
+        articleEntity.deleteProcess();
+        articleRepo.delete(articleEntity);
+        return 1;
+    }
 }

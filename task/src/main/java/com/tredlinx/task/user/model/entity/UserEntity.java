@@ -60,4 +60,7 @@ public class UserEntity extends TimeEntity {
     public void addPoint(PointType type) {
         this.point += type.getPoint();
     }
+    public void removePoint(long point) {
+        this.point -= point;
+    }
 }

@@ -10,4 +10,6 @@ public interface ArticleService {
     Map<String, String> updateArticle(Article.Update updateDto);
 
     Article.Select selectArticle(String articleId);
+
+    int deleteArticle(String articleId);
 }
