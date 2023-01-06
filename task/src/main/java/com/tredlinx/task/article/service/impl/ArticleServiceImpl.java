@@ -35,4 +35,11 @@ public class ArticleServiceImpl implements ArticleService {
 
         return Map.of("articleId", updateDto.getArticleId());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Article.Select selectArticle(String articleId) {
+        ArticleEntity articleEntity = articleRepo.findById(articleId).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
+        return articleEntity.selectArticleDto();
+    }
 }

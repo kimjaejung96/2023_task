@@ -4,6 +4,7 @@ package com.tredlinx.task.user.model.entity;
 import com.tredlinx.task.common.component.Encryptor;
 import com.tredlinx.task.common.exception.CustomRuntimeException;
 import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
+import com.tredlinx.task.common.model.entity.TimeEntity;
 import com.tredlinx.task.common.model.enumurate.PointType;
 import com.tredlinx.task.user.model.dto.User;
 import lombok.AccessLevel;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Getter
 @Table(name = "USER_TB")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity {
+public class UserEntity extends TimeEntity {
     @Id
     @Column(name = "UID", columnDefinition = "char(36)")
     private String uid;

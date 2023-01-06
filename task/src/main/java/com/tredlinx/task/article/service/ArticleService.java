@@ -8,4 +8,6 @@ public interface ArticleService {
     Map<String, String> articleWrite(Article.Write write);
 
     Map<String, String> updateArticle(Article.Update updateDto);
+
+    Article.Select selectArticle(String articleId);
 }

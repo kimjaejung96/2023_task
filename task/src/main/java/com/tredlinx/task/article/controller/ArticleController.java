@@ -62,4 +62,24 @@ public class ArticleController {
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
+    @Operation(summary = "글 조회", description = "글 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR"),
+            @ApiResponse(responseCode = "603", description = "글을 찾을 수 없습니다."),
+            @ApiResponse(responseCode = "999", description = "SYSTEM_ERROR"),
+    })
+    @Parameters({
+            @Parameter(name = "articleId", description = "글 아이디", example = "1ded26d4-b3c2-46c1-b11d-55430f24ac75"),
+    })
+    @GetMapping("/article/{articleId}")
+    public ResponseEntity<ResponseObject> selectArticle(@PathVariable String articleId) {
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.CREATED);
+        responseObject.setBody(articleService.selectArticle(articleId));
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+
 }
