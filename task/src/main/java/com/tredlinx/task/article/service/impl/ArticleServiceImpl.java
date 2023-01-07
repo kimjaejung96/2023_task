@@ -30,7 +30,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public Map<String, String> updateArticle(Article.Update updateDto) {
-        ArticleEntity articleEntity = articleRepo.findById(updateDto.getArticleId()).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
+        ArticleEntity articleEntity = getArticle(updateDto.getArticleId());
         articleEntity.updateArticle(updateDto);
 
         return Map.of("articleId", updateDto.getArticleId());
@@ -39,15 +39,19 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(readOnly = true)
     public Article.Select selectArticle(String articleId) {
-        ArticleEntity articleEntity = articleRepo.findById(articleId).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
+        ArticleEntity articleEntity = getArticle(articleId);
         return articleEntity.selectArticleDto();
     }
 
     @Override
     @Transactional
     public int deleteArticle(String articleId) {
-        ArticleEntity articleEntity = articleRepo.findById(articleId).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
+        ArticleEntity articleEntity = getArticle(articleId);
         articleEntity.deleteProcess();
         return articleRepo.deleteArticleEntityById(articleId);
+    }
+
+    private ArticleEntity getArticle(String articleId) {
+        return articleRepo.findById(articleId).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
     }
 }

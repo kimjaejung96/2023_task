@@ -57,7 +57,7 @@ public class ArticleController {
     })
     @PutMapping("/article")
     public ResponseEntity<ResponseObject> updateArticle(@RequestBody Article.Update updateDto) {
-        ResponseObject responseObject = new ResponseObject(CustomApiCode.CREATED);
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(articleService.updateArticle(updateDto));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
@@ -77,7 +77,7 @@ public class ArticleController {
     })
     @GetMapping("/article/{articleId}")
     public ResponseEntity<ResponseObject> selectArticle(@PathVariable String articleId) {
-        ResponseObject responseObject = new ResponseObject(CustomApiCode.CREATED);
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(articleService.selectArticle(articleId));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
@@ -96,7 +96,7 @@ public class ArticleController {
     })
     @DeleteMapping("/article/{articleId}")
     public ResponseEntity<ResponseObject> deleteArticle(@PathVariable String articleId) {
-        ResponseObject responseObject = new ResponseObject(CustomApiCode.CREATED);
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         responseObject.setBody(articleService.deleteArticle(articleId));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
