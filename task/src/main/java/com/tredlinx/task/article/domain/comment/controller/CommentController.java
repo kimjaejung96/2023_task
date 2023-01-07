@@ -58,7 +58,7 @@ public class CommentController {
     @DeleteMapping("/comments/{commentsId}")
     public ResponseEntity<ResponseObject> deleteComment(@PathVariable String commentsId,
                                                        @RequestParam String articleId) {
-        ResponseObject responseObject = new ResponseObject(CustomApiCode.CREATED);
+        ResponseObject responseObject = new ResponseObject(CustomApiCode.OK);
         commentService.deleteComment(articleId, commentsId);
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
