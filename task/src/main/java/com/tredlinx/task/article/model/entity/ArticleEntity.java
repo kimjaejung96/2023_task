@@ -67,7 +67,7 @@ public class ArticleEntity extends TimeEntity {
         long commentNum = this.getComments().stream()
                 .filter(comment -> !comment.getUid().equals(JwtUtils.getUid()))
                 .count();
-        this.getUser().removePoint(commentNum);
+        this.getUser().removePoint(commentNum + PointType.ARTICLE_WRITE.getPoint());
         this.getComments().clear();
 
     }

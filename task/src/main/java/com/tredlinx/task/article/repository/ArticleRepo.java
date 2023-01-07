@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ArticleRepo extends JpaRepository<ArticleEntity, String> {
     Optional<ArticleEntity> findById(String id);
+    int deleteArticleEntityById(String id);
+
 }

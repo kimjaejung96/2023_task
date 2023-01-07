@@ -48,7 +48,6 @@ public class ArticleServiceImpl implements ArticleService {
     public int deleteArticle(String articleId) {
         ArticleEntity articleEntity = articleRepo.findById(articleId).orElseThrow(() -> new CustomRuntimeException(CustomApiCode.ARTICLE_NOT_FOUND));
         articleEntity.deleteProcess();
-        articleRepo.delete(articleEntity);
-        return 1;
+        return articleRepo.deleteArticleEntityById(articleId);
     }
 }
