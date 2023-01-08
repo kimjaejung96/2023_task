@@ -19,7 +19,7 @@ spring:
       path: /h2-console
 logging:
   level:
-    org.hibernate.type: trace
+    org.hibernate.type: info
 server:
   port: 8899
 jwt:

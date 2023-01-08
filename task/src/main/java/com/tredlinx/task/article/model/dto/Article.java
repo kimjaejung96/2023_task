@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 public class Article {
@@ -32,7 +33,9 @@ public class Article {
         private List<Comment> comments;
 
         public static Select articleEntityToDto(ArticleEntity articleEntity) {
-            List<Comment> comments = Comment.commentsEntityToDto(articleEntity.getComments());
+            List<Comment> comments = Comment.commentsEntityToDto(articleEntity.getComments().stream()
+                    .filter(c -> !c.getIsDelete())
+                    .collect(Collectors.toList()));
             return new Select(articleEntity.getId(), articleEntity.getTitle(), articleEntity.getContent(), comments);
         }
 

@@ -5,7 +5,6 @@ import com.tredlinx.task.common.component.JwtUtils;
 import com.tredlinx.task.common.exception.CustomRuntimeException;
 import com.tredlinx.task.common.exception.model.enumurate.CustomApiCode;
 import com.tredlinx.task.common.model.entity.TimeEntity;
-import com.tredlinx.task.user.model.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +24,8 @@ public class CommentEntity extends TimeEntity {
     private String id;
     @Column(name = "UID", columnDefinition = "VARCHAR(36)")
     private String uid;
+    @Column(name = "IS_DELETE", columnDefinition = "tinyint(1)")
+    private Boolean isDelete;
     @Column(name = "CONTENT", columnDefinition = "VARCHAR(200)")
     private String content;
     @CreatedDate
@@ -40,10 +41,14 @@ public class CommentEntity extends TimeEntity {
         this.uid = JwtUtils.getUid();
         this.content = content;
         this.article = new ArticleEntity(articleId);
+        this.isDelete = false;
     }
     public void checkMaster() {
         if (!this.getUid().equals(JwtUtils.getUid())) {
             throw new CustomRuntimeException(CustomApiCode.COMMENT_UNAUTHORIZED);
         }
+    }
+    public void delete() {
+        this.isDelete = true;
     }
 }

@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
         boolean isMyArticle = articleEntity.writeComment(commentsContents);
         if (!isMyArticle) {
             userRepo.findByUid(JwtUtils.getUid())
-                    .ifPresent(user -> user.addPoint(PointType.COMMENT_ARTICLE_WRITER));
+                    .ifPresent(user -> user.addPoint(PointType.COMMENT_WRITER));
         }
     }
 
@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
 
         if (!isMyArticle) {
             userRepo.findByUid(JwtUtils.getUid())
-                    .ifPresent(user -> user.removePoint(PointType.COMMENT_ARTICLE_WRITER.getPoint()));
+                    .ifPresent(user -> user.removePoint(PointType.COMMENT_WRITER.getPoint()));
         }
 
     }

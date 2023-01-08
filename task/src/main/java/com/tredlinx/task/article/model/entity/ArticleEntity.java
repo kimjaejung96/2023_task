@@ -55,6 +55,7 @@ public class ArticleEntity extends TimeEntity {
     }
 
     public void updateArticle(Article.Update article) {
+        checkMaster();
         this.title = article.getArticleTitle();
         this.content = article.getArticleContents();
     }
@@ -83,7 +84,7 @@ public class ArticleEntity extends TimeEntity {
     }
     private boolean writePoint() {
         if (!this.getUser().getUid().equals(JwtUtils.getUid())) {
-            this.getUser().addPoint(PointType.COMMENT_WRITER);
+            this.getUser().addPoint(PointType.COMMENT_ARTICLE_WRITER);
             return false;
         } else return true;
     }
@@ -94,7 +95,7 @@ public class ArticleEntity extends TimeEntity {
                 .findAny()
                 .orElseThrow(() -> new CustomRuntimeException(CustomApiCode.COMMENT_NOT_FOUND));
         comment.checkMaster();
-        this.getComments().remove(comment);
+        comment.delete();
 
         return comment.getUid().equals(this.getUser().getUid());
     }
